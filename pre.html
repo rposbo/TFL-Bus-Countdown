@@ -11,6 +11,7 @@ a:visited {color:blue;}
 ul {list-style-type: none;padding: 0;margin: 0;cursor:auto;}
 li{background-image: url(bus.jpg);background-repeat: no-repeat;background-position: 0 .4em;padding: 5px 0 5px 20px;margin: .4em 0;}
 .time {margin-right:1em;}
+.loading:after {width:16px; background-image:url(ajax-loader.gif); background-repeat:no-repeat;}
 </style>
 <script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.6.2rc1.js"></script>
 <script language="javascript" type="text/javascript">
@@ -59,19 +60,21 @@ var data = $.parseJSON(stopListingData);
 function getBusListingForStop(stopId){
 var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
 
-$.ajax({
-            type: 'POST',
-            url: 'Proxy.asmx/getMeTheDataFrom',
-            data: "{'here':'"+endpoint+"'}",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(data) { displayBusListing(data.d, stopId); }
-        });
-    }
+$("#" + stopId).attr("class", "stopListing loading");
+
+	$.ajax({
+		type: 'POST',
+		url: 'Proxy.asmx/getMeTheDataFrom',
+		data: "{'here':'"+endpoint+"'}",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		success: function(data) { displayBusListing(data.d, stopId); }
+	});
+}
 
 function displayBusListing(busListingData, stopId){
 var data = $.parseJSON(busListingData);
-$("#" + stopId).attr("onclick","#");
+$("#" + stopId).attr("onclick","#").attr("class", "stopListing");
 
 	$("#busListing").html("<h1>Buses due at that stop</h1>");
 
