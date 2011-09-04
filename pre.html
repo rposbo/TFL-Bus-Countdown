@@ -73,11 +73,12 @@ function displayBusListing(busListingData, stopId){
 var data = $.parseJSON(busListingData);
 $("#" + stopId).attr("onclick","#");
 
-$("#busListing").html("<h1>Buses due at that stop</h1>");
-//$('html, body').animate({scrollTop:0}, 'slow');
+	$("#busListing").html("<h1>Buses due at that stop</h1>");
+
+  $("<br/>")
+  .appendTo("#" + stopId);
+	  
 	$.each(data.arrivals, function(i,item){
-      $("<br/>")
-	  .appendTo("#" + stopId);
 	  
       $("<span/>")
 	  .text(item.estimatedWait)
