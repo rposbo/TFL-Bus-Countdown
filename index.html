@@ -21,8 +21,8 @@ $(document).ready(function() {
 			getStopListingForLocation(position.coords.latitude,position.coords.longitude);
 		});
 	} else {
-alert('could not get your location');
-}
+		alert('could not get your location');
+	}
 });
 
 function getStopListingForLocation(lat, lng){
@@ -51,32 +51,30 @@ var data = $.parseJSON(stopListingData);
 	  .text(item.name + ' (stop ' + item.stopIndicator + ') to ' + item.towards)
 	  .attr("onclick", "getBusListingForStop(" + item.id + ")")
 	  .attr("class", "stopListing")
-	  .attr("id", item.id)
+	  .attr("id", item.id)	  
 	  .appendTo("#stopListing");
     });	
 }
 
 function getBusListingForStop(stopId){
 var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
+	
+	$("#" + stopId).attr("onclick","");
 
-$.ajax({
-            type: 'POST',
-            url: 'Proxy.asmx/getMeTheDataFrom',
-            data: "{'here':'"+endpoint+"'}",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function(data) { displayBusListing(data.d, stopId); }
-        });
-    }
+	$.ajax({
+		type: 'POST',
+		url: 'Proxy.asmx/getMeTheDataFrom',
+		data: "{'here':'"+endpoint+"'}",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		success: function(data) { displayBusListing(data.d, stopId); }
+	});
+}
 
 function displayBusListing(busListingData, stopId){
-var data = $.parseJSON(busListingData);
-$("#" + stopId).attr("onclick","#");
-
-	$("#busListing").html("<h1>Buses due at that stop</h1>");
-
-  $("<br/>")
-  .appendTo("#" + stopId);
+	var data = $.parseJSON(busListingData);
+	
+  $("<h2 />").text("Buses Due").appendTo("#" + stopId);
 	  
 	$.each(data.arrivals, function(i,item){
 	  

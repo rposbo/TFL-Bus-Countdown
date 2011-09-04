@@ -51,13 +51,15 @@ var data = $.parseJSON(stopListingData);
 	  .text(item.name + ' (stop ' + item.stopIndicator + ') to ' + item.towards)
 	  .attr("onclick", "getBusListingForStop(" + item.id + ")")
 	  .attr("class", "stopListing")
-	  .attr("id", item.id)
+	  .attr("id", item.id)	  
 	  .appendTo("#stopListing");
     });	
 }
 
 function getBusListingForStop(stopId){
 var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
+	
+	$("#" + stopId).attr("onclick","");
 
 	$.ajax({
 		type: 'POST',
