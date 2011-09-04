@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>@rposbo : UNOFFICIAL Mobile TFL Bus Countdown Board</title>
+<style>
+body {font-family:calibri; font-size:12px; width:auto; max-width:100%;}
+
+#busListing {display:block;}
+a:visited {color:blue;}
+
+ul
+{
+list-style-type: none;
+padding: 0;
+margin: 0;
+cursor:auto;
+}
+li
+{
+background-image: url(bus.jpg);
+background-repeat: no-repeat;
+background-position: 0 .4em;
+padding: 5px 0 5px 20px;
+margin: .4em 0;
+}
+.time {margin-right:1em;}
+</style>
+<script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.6.2rc1.js"></script>
+<script language="javascript" type="text/javascript">
+$(document).ready(function() {
+	// get lat long
+	if (navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(function (position) {
+			getStopListingForLocation(position.coords.latitude,position.coords.longitude);
+		});
+	} else {
+alert('could not get your location');
+}
+});
+
+function getStopListingForLocation(lat, lng){
+	var swLat, swLng, neLat, neLng;
+	swLat = lat - 0.01;
+	swLng = lng - 0.01;
+	neLat = lat + 0.01;
+	neLng = lng + 0.01;
+
+	var endpoint = 'http://countdown.tfl.gov.uk/markers/swLat/' + swLat + '/swLng/' + swLng + '/neLat/' + neLat + '/neLng/' + neLng + '/';
+
+	$.ajax({
+				type: 'POST',
+				url: 'Proxy.asmx/getMeTheDataFrom',
+				data: "{'here':'"+endpoint+"'}",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(data) { displayStopListing(data.d); }
+			});
+}
+
+function displayStopListing(stopListingData){
+var data = $.parseJSON(stopListingData);
+	$.each(data.markers, function(i,item){
+      $("<li/>")
+	  .text(item.name + ' (stop ' + item.stopIndicator + ') to ' + item.towards)
+	  .attr("onclick", "getBusListingForStop(" + item.id + ")")
+	  .attr("class", "stopListing")
+	  .appendTo("#stopListing");
+    });	
+}
+
+function getBusListingForStop(stopId){
+var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
+
+$.ajax({
+            type: 'POST',
+            url: 'Proxy.asmx/getMeTheDataFrom',
+            data: "{'here':'"+endpoint+"'}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) { displayBusListing(data.d); }
+        });
+    }
+
+function displayBusListing(busListingData){
+var data = $.parseJSON(busListingData);
+
+$("#busListing").html("<h1>Buses due at that stop</h1>");
+$('html, body').animate({scrollTop:0}, 'slow');
+	$.each(data.arrivals, function(i,item){
+      $("<span/>")
+	  .text(item.estimatedWait)
+	  .attr("class", "busListing time")
+	  .appendTo("#busListing");
+
+      $("<span/>")
+	  .text(item.routeName + ' to ' + item.destination)
+	  .attr("class", "busListing info")
+	  .appendTo("#busListing");
+
+      $("<br/>")
+	  .appendTo("#busListing");
+    });	
+}
+</script>
+</head>
+<body>
+<div id="hello">Using the extremely handy TFL bus countdown thingy, but made for mobiles by <a href="http://twitter.com/rposbo">@rposbo</a></div>
+<div id="busListing"></div>
+<h1>Stops Near You (tap one)</h1>
+<ul id="stopListing"></ul>
+</body>
+</html>
