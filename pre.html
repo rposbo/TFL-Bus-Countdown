@@ -4,12 +4,13 @@
 <title>@rposbo : UNOFFICIAL Mobile TFL Bus Countdown Board</title>
 <style>
 body {font-family:calibri; font-size:12px; width:auto; max-width:100%;}
+#disclaimer {font-size:10px;}
+#disclaimer img {float:left;}
 #busListing {display:block;}
 a:visited {color:blue;}
 ul {list-style-type: none;padding: 0;margin: 0;cursor:auto;}
 li{background-image: url(bus.jpg);background-repeat: no-repeat;background-position: 0 .4em;padding: 5px 0 5px 20px;margin: .4em 0;}
 .time {margin-right:1em;}
-#disclaimer {font-size:10px text-align:center; margin-top:40px; padding-bottom:10px}
 </style>
 <script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.6.2rc1.js"></script>
 <script language="javascript" type="text/javascript">
@@ -75,6 +76,9 @@ $("#" + stopId).attr("onclick","#");
 $("#busListing").html("<h1>Buses due at that stop</h1>");
 //$('html, body').animate({scrollTop:0}, 'slow');
 	$.each(data.arrivals, function(i,item){
+      $("<br/>")
+	  .appendTo("#" + stopId);
+	  
       $("<span/>")
 	  .text(item.estimatedWait)
 	  .attr("class", "busListing time")
@@ -94,8 +98,8 @@ $("#busListing").html("<h1>Buses due at that stop</h1>");
 <body>
 <div id="hello">Using the extremely handy TFL bus countdown thingy, but made for mobiles by <a href="http://twitter.com/rposbo">@rposbo</a></div>
 <div id="busListing"></div>
-<h1>Stops Near You (tap one)</h1>
+<h1>Bus Stops Near You (tap one)</h1>
 <ul id="stopListing"></ul>
-<div id="disclaimer">All of the data is coming from the TFL website. I am not a TFL employee and this site is in no way endorsed by TFL. The functionality of this site is in no way guaranteed and should TFL change their site at all, this one will break! This page may or may not work on your device, and it curently relies on you device's geolocation (location sharing) functionality. I'm just making something I think might be handy for me, and you can now have a go too!</div>
+<div id="disclaimer"><img src="http://www.gravatar.com/avatar/bf7555903ede35aa7463c94ddc2cf966" width"40px" height="40px" /> All of the data is coming from the TFL website. I am not a TFL employee and this site is in no way endorsed by TFL. The functionality of this site is in no way guaranteed and should TFL change their site at all, this one will break! This page may or may not work on your device, and it curently relies on you device's geolocation (location sharing) functionality. I'm just making something I think might be handy for me, and you can now have a go too!</div>
 </body>
 </html>
