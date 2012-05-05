@@ -59,7 +59,7 @@ var data = $.parseJSON(stopListingData);
 function getBusListingForStop(stopId){
 var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
 	
-	$("#" + stopId).attr("onclick","");
+	//$("#" + stopId).attr("onclick","");
 
 	$.ajax({
 		type: 'POST',
@@ -73,8 +73,10 @@ var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
 
 function displayBusListing(busListingData, stopId){
 	var data = $.parseJSON(busListingData);
-	
-  $("<h2 />").text("Buses Due").appendTo("#" + stopId);
+
+	$("#" + stopId).children().remove();
+  
+    $("<h2 />").text("Buses Due").appendTo("#" + stopId);
 	  
 	$.each(data.arrivals, function(i,item){
 	  
