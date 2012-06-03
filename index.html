@@ -54,7 +54,7 @@ var data = $.parseJSON(stopListingData);
 	  .attr("onclick", "getBusListingForStop(" + item.id + ")")
 	  .attr("class", "stopListing")
 	  .attr("id", item.id)	  
-	  .attr("href","#")	  
+	  .attr("href","#_" + item.stopIndicator)
 	  .attr("name","stop_" + item.id)
 	  .appendTo("#stopListing");
     });	
