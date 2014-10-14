@@ -4,12 +4,13 @@
 <title>@rposbo : UNOFFICIAL Mobile TFL Bus Countdown Board</title>
 <style>
 body {font-family:calibri; font-size:12px; width:auto; max-width:100%;}
-#disclaimer {font-size:8;}
+#disclaimer {font-size:8px;}
 #disclaimer img {float:left;}
 #busListing {display:block;}
 a:visited {color:blue;}
-ul {list-style-type: none;padding: 0;margin: 0;cursor:auto;}
-li{background-image: url(bus.jpg);background-repeat: no-repeat;background-position: 0 .4em;padding: 5px 0 5px 20px;margin: .4em 0;}
+#stopListing a {display:block; padding: 5px;margin: .4em 0;background-color:#ecffec; text-decoration:none; color:black;}
+#stopListing a:hover {background-color:#ececff;}
+#stopListing a:active {background-color:#ffecec;}
 .time {margin-right:1em;}
 </style>
 <script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.6.2rc1.js"></script>
@@ -46,19 +47,22 @@ function getStopListingForLocation(lat, lng){
 
 function displayStopListing(stopListingData){
 var data = $.parseJSON(stopListingData);
+
 	$.each(data.markers, function(i,item){
-      $("<li/>")
+      $("<a/>")
 	  .text(item.name + ' (stop ' + item.stopIndicator + ') to ' + item.towards)
 	  .attr("onclick", "getBusListingForStop(" + item.id + ")")
 	  .attr("class", "stopListing")
 	  .attr("id", item.id)	  
+	  .attr("href","#_" + item.stopIndicator)
+	  .attr("name","stop_" + item.id)
 	  .appendTo("#stopListing");
     });	
 }
 
 function getBusListingForStop(stopId){
 var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
-	
+
 	$.ajax({
 		type: 'POST',
 		url: 'Proxy.asmx/getMeTheDataFrom',
@@ -71,11 +75,11 @@ var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
 
 function displayBusListing(busListingData, stopId){
 	
-    $("#" + stopId).children().remove();
-    
-    var data = $.parseJSON(busListingData);
-	
-  $("<h2 />").text("Buses Due").appendTo("#" + stopId);
+	var data = $.parseJSON(busListingData);
+
+	$("#" + stopId).children().remove();
+  
+    $("<h2 />").text("Buses Due").appendTo("#" + stopId);
 	  
 	$.each(data.arrivals, function(i,item){
 	  
@@ -96,10 +100,10 @@ function displayBusListing(busListingData, stopId){
 </script>
 </head>
 <body>
-<div id="hello">Using the extremely handy TFL bus countdown thingy, but made for mobiles by <a href="http://twitter.com/rposbo">@rposbo</a></div>
+<div id="hello">Using the extremely handy TFL bus countdown thingy, but made for mobiles by <a href="http://twitter.com/rposbo">@rposbo</a>. Tap a bus stop to get the countdown listing, tap again to refresh.</div>
 <div id="busListing"></div>
-<h1>Bus Stops Near You (tap one)</h1>
-<ul id="stopListing"></ul>
+<h1>Bus Stops Near You</h1>
+<div id="stopListing"></div>
 <div id="disclaimer"><img src="http://www.gravatar.com/avatar/bf7555903ede35aa7463c94ddc2cf966" width"40px" height="40px" /> All of the data is coming from the TFL website. I am not a TFL employee and this site is in no way endorsed by TFL. The functionality of this site is in no way guaranteed and should TFL change their site at all, this one will break! This page may or may not work on your device, and it curently relies on you device's geolocation (location sharing) functionality. I'm just making something I think might be handy for me, and you can now have a go too!</div>
 </body>
 </html>
