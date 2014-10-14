@@ -97,13 +97,25 @@ function displayBusListing(busListingData, stopId){
 	  .appendTo("#" + stopId);
     });	
 }
+
+
 </script>
 </head>
 <body>
-<div id="hello">Using the extremely handy TFL bus countdown thingy, but made for mobiles by <a href="http://twitter.com/rposbo">@rposbo</a>. Tap a bus stop to get the countdown listing, tap again to refresh.</div>
+<div id="hello">Using the extremely handy TFL bus countdown thingy, but <a href="http://robinosborne.co.uk/tag/tfl/" target="_blank">made for mobiles</a> by <a href="http://twitter.com/rposbo">@rposbo</a>. Tap a bus stop to get the countdown listing, tap again to refresh.</div>
 <div id="busListing"></div>
 <h1>Bus Stops Near You</h1>
 <div id="stopListing"></div>
 <div id="disclaimer"><img src="http://www.gravatar.com/avatar/bf7555903ede35aa7463c94ddc2cf966" width"40px" height="40px" /> All of the data is coming from the TFL website. I am not a TFL employee and this site is in no way endorsed by TFL. The functionality of this site is in no way guaranteed and should TFL change their site at all, this one will break! This page may or may not work on your device, and it curently relies on you device's geolocation (location sharing) functionality. I'm just making something I think might be handy for me, and you can now have a go too!</div>
+<script async>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-55736935-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </body>
 </html>
