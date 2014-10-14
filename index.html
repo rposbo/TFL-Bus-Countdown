@@ -4,7 +4,7 @@
 <title>@rposbo : UNOFFICIAL Mobile TFL Bus Countdown Board</title>
 <style>
 body {font-family:calibri; font-size:12px; width:auto; max-width:100%;}
-#disclaimer {font-size:10px;}
+#disclaimer {font-size:8;}
 #disclaimer img {float:left;}
 #busListing {display:block;}
 a:visited {color:blue;}
@@ -59,8 +59,6 @@ var data = $.parseJSON(stopListingData);
 function getBusListingForStop(stopId){
 var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
 	
-	$("#" + stopId).attr("onclick","");
-
 	$.ajax({
 		type: 'POST',
 		url: 'Proxy.asmx/getMeTheDataFrom',
@@ -72,7 +70,10 @@ var endpoint = 'http://countdown.tfl.gov.uk/stopBoard/' + stopId + '/';
 }
 
 function displayBusListing(busListingData, stopId){
-	var data = $.parseJSON(busListingData);
+	
+    $("#" + stopId).children().remove();
+    
+    var data = $.parseJSON(busListingData);
 	
   $("<h2 />").text("Buses Due").appendTo("#" + stopId);
 	  
