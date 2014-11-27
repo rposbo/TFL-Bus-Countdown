@@ -93,6 +93,14 @@ function displayBusListing(busListingData, stopId){
 	  .attr("class", "busListing info")
 	  .appendTo("#" + stopId);
 
+	  var d = new Date(); d.setMinutes(d.getMinutes() + item.estimatedWait);
+	  var clock = d.getHours() + ':' + d.getMinutes();
+
+      $("<span/>")
+	  .text(clock)
+	  .attr("class", "busListing clock")
+	  .appendTo("#" + stopId);
+
       $("<br/>")
 	  .appendTo("#" + stopId);
     });	
