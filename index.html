@@ -12,6 +12,7 @@ a:visited {color:blue;}
 #stopListing a:hover {background-color:#ececff;}
 #stopListing a:active {background-color:#ffecec;}
 .time {margin-right:1em;}
+.clock {float:right;}
 </style>
 <script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.6.2rc1.js"></script>
 <script language="javascript" type="text/javascript">
@@ -93,7 +94,7 @@ function displayBusListing(busListingData, stopId){
 	  .attr("class", "busListing info")
 	  .appendTo("#" + stopId);
 
-	  var wait = item.estimatedWait.replace(" min", "").replace("due","0");
+	  var wait = parseInt(item.estimatedWait.replace(" min", "").replace("due","0"));
 	  var d = new Date(); d.setMinutes(d.getMinutes() + wait);
 	  var clock = d.getHours() + ':' + d.getMinutes();
 
