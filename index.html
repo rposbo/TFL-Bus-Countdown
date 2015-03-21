@@ -55,7 +55,7 @@ var data = $.parseJSON(stopListingData);
 	  .attr("onclick", "getBusListingForStop(" + item.id + ")")
 	  .attr("class", "stopListing")
 	  .attr("id", item.id)	  
-	  .attr("href","#_" + item.stopIndicator)
+	  //.attr("href","#_" + item.stopIndicator)
 	  .attr("name","stop_" + item.id)
 	  .appendTo("#stopListing");
     });	
@@ -96,7 +96,7 @@ function displayBusListing(busListingData, stopId){
 
 	  var wait = parseInt(item.estimatedWait.replace(" min", "").replace("due","0"));
 	  var d = new Date(); d.setMinutes(d.getMinutes() + wait);
-	  var clock = d.getHours() + ':' + d.getMinutes();
+	  var clock = d.getHours() + ':' + ('0'+d.getMinutes()).substr(-2);
 
       $("<span/>")
 	  .text(clock)
@@ -107,6 +107,17 @@ function displayBusListing(busListingData, stopId){
 	  .appendTo("#" + stopId);
     });	
 }
+
+function getFaves()
+{
+	if (document.cookie)
+	{
+
+	}
+}
+
+function setFave(stopid)
+{}
 
 
 </script>
