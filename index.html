@@ -67,10 +67,10 @@ var data = $.parseJSON(stopListingData);
 	  .text(item.commonName + ' (stop ' + item.stopLetter + ') ' + destination)
 	  .attr("onclick", "getBusListingForStop('" + item.id + "')")
 	  .attr("class", "stopListing")
-	  .attr("id", item.id)	  
+	  .attr("id", item.id)
 	  .attr("name","stop_" + item.id)
 	  .appendTo("#stopListing");
-    });	
+    });
 }
 
 function getBusListingForStop(stopId){
@@ -87,18 +87,18 @@ var endpoint = 'https://api-argon.tfl.gov.uk/StopPoint/' + stopId + '/Arrivals';
 }
 
 function displayBusListing(busListingData, stopId){
-	
+
 	var data = $.parseJSON(busListingData);
 	data.sort(function(a,b) {return (a.timeToStation > b.timeToStation) ? 1 : ((b.timeToStation > a.timeToStation) ? -1 : 0);} );
 
 	$("#" + stopId).children().remove();
-  
+
     $("<h2 />").text("Buses Due").appendTo("#" + stopId);
-	  
+
 	$.each(data, function(i,item){
-	  
+
       $("<span/>")
-	  .text(Math.floor(item.timeToStation/60) + ' min')
+	  .text(countdownText(item.timeToStation))
 	  .attr("class", "time")
 	  .appendTo("#" + stopId);
 
@@ -107,14 +107,19 @@ function displayBusListing(busListingData, stopId){
 	  .attr("class", "info")
 	  .appendTo("#" + stopId);
 
-//     $("<span/>")
-//	  .text(item.expectedArrival)
-//	  .attr("class", "clock")
-//	  .appendTo("#" + stopId);
+    // $("<span/>")
+	  // .text(item.expectedArrival)
+	  // .attr("class", "clock")
+	  // .appendTo("#" + stopId);
 
       $("<br/>")
 	  .appendTo("#" + stopId);
-    });	
+    });
+}
+
+function countdownText(seconds){
+	var mins = seconds/60;
+	return mins > 0 ? Math.floor(mins) + ' min' : 'due';
 }
 
 </script>
