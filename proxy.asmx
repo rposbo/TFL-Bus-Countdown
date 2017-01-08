@@ -11,7 +11,7 @@ using System.Web.Services;
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [System.Web.Script.Services.ScriptService]
-public class WebService1 : System.Web.Services.WebService 
+public class WebService1 : System.Web.Services.WebService
 {
     public WebService1()
     {
@@ -19,13 +19,17 @@ public class WebService1 : System.Web.Services.WebService
         // TODO: Add any constructor code required
         //
     }
-    
+
     [WebMethod]
     public string getMeTheDataFrom(string here)
     {
+      try {
         using (var response = new System.Net.WebClient())
         {
             return response.DownloadString(here);
         }
+      } catch (Exception e) {
+        return e.Message;
+      }
     }
 }
