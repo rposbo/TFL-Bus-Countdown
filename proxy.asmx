@@ -24,6 +24,7 @@ public class WebService1 : System.Web.Services.WebService
     public string getMeTheDataFrom(string here)
     {
       try {
+        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
         using (var response = new System.Net.WebClient())
         {
             return response.DownloadString(here);
